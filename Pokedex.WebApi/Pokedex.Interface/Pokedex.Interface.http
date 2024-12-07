@@ -1,0 +1,6 @@
+@Pokedex.Interface_HostAddress = http://localhost:5046
+
+GET {{Pokedex.Interface_HostAddress}}/Pokemon/mewtwo
+Accept: application/json
+
+###

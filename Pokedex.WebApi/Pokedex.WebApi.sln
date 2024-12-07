@@ -1,0 +1,82 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokedex.Interface", "Pokedex.Interface\Pokedex.Interface.csproj", "{F3EA9AB2-040A-4F1A-B25C-97CBBDDA2D91}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokeDex.Domain", "PokeDex.Domain\PokeDex.Domain.csproj", "{2E020975-D752-4579-ACA8-48AD20C6AC56}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokedex.Application", "Pokedex.Application\Pokedex.Application.csproj", "{0714E8D8-5BCD-4770-9E60-1087ADDFB361}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokedex.Test", "Pokedex.Test\Pokedex.Test.csproj", "{B98880D9-5B23-460E-BC2F-0A6CC05A3231}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JewelArchitecture.Core", "JewelArchitecture.Core", "{B5E25AA6-547E-4FBE-BBA7-71CC511D86D4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JewelArchitecture.Core.Application", "..\JewelArchitecture.Core\JewelArchitecture.Core.Application\JewelArchitecture.Core.Application.csproj", "{C87A90CF-4086-4D19-BE7E-74D0FCC6067E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JewelArchitecture.Core.Domain", "..\JewelArchitecture.Core\JewelArchitecture.Core.Domain\JewelArchitecture.Core.Domain.csproj", "{F9B9D467-85D7-47AE-8B61-8AED13743651}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JewelArchitecture.Core.Interface", "..\JewelArchitecture.Core\JewelArchitecture.Core.Interface\JewelArchitecture.Core.Interface.csproj", "{8E554441-F1F4-4E98-87F5-CB6FC50CE9B8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JewelArchitecture.Core.Test", "..\JewelArchitecture.Core\JewelArchitecture.Core.Test\JewelArchitecture.Core.Test.csproj", "{F620BD3A-610D-46B7-AC72-8B06B948205E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JewelArchitecture.Core.Infrastructure", "..\JewelArchitecture.Core\JewelArchitecture.Core.Infrastructure\JewelArchitecture.Core.Infrastructure.csproj", "{12C64ADF-541F-4C8F-AF44-687510A3DBB4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F3EA9AB2-040A-4F1A-B25C-97CBBDDA2D91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3EA9AB2-040A-4F1A-B25C-97CBBDDA2D91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3EA9AB2-040A-4F1A-B25C-97CBBDDA2D91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3EA9AB2-040A-4F1A-B25C-97CBBDDA2D91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E020975-D752-4579-ACA8-48AD20C6AC56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E020975-D752-4579-ACA8-48AD20C6AC56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E020975-D752-4579-ACA8-48AD20C6AC56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E020975-D752-4579-ACA8-48AD20C6AC56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0714E8D8-5BCD-4770-9E60-1087ADDFB361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0714E8D8-5BCD-4770-9E60-1087ADDFB361}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0714E8D8-5BCD-4770-9E60-1087ADDFB361}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0714E8D8-5BCD-4770-9E60-1087ADDFB361}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B98880D9-5B23-460E-BC2F-0A6CC05A3231}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B98880D9-5B23-460E-BC2F-0A6CC05A3231}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B98880D9-5B23-460E-BC2F-0A6CC05A3231}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B98880D9-5B23-460E-BC2F-0A6CC05A3231}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C87A90CF-4086-4D19-BE7E-74D0FCC6067E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C87A90CF-4086-4D19-BE7E-74D0FCC6067E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C87A90CF-4086-4D19-BE7E-74D0FCC6067E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C87A90CF-4086-4D19-BE7E-74D0FCC6067E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9B9D467-85D7-47AE-8B61-8AED13743651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9B9D467-85D7-47AE-8B61-8AED13743651}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9B9D467-85D7-47AE-8B61-8AED13743651}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9B9D467-85D7-47AE-8B61-8AED13743651}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E554441-F1F4-4E98-87F5-CB6FC50CE9B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E554441-F1F4-4E98-87F5-CB6FC50CE9B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E554441-F1F4-4E98-87F5-CB6FC50CE9B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E554441-F1F4-4E98-87F5-CB6FC50CE9B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F620BD3A-610D-46B7-AC72-8B06B948205E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F620BD3A-610D-46B7-AC72-8B06B948205E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F620BD3A-610D-46B7-AC72-8B06B948205E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F620BD3A-610D-46B7-AC72-8B06B948205E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12C64ADF-541F-4C8F-AF44-687510A3DBB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12C64ADF-541F-4C8F-AF44-687510A3DBB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12C64ADF-541F-4C8F-AF44-687510A3DBB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12C64ADF-541F-4C8F-AF44-687510A3DBB4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C87A90CF-4086-4D19-BE7E-74D0FCC6067E} = {B5E25AA6-547E-4FBE-BBA7-71CC511D86D4}
+		{F9B9D467-85D7-47AE-8B61-8AED13743651} = {B5E25AA6-547E-4FBE-BBA7-71CC511D86D4}
+		{8E554441-F1F4-4E98-87F5-CB6FC50CE9B8} = {B5E25AA6-547E-4FBE-BBA7-71CC511D86D4}
+		{F620BD3A-610D-46B7-AC72-8B06B948205E} = {B5E25AA6-547E-4FBE-BBA7-71CC511D86D4}
+		{12C64ADF-541F-4C8F-AF44-687510A3DBB4} = {B5E25AA6-547E-4FBE-BBA7-71CC511D86D4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4FCCC1FF-ED56-4B4B-A339-E4CAE414A39F}
+	EndGlobalSection
+EndGlobal
