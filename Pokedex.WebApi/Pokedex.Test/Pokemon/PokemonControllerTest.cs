@@ -2,7 +2,7 @@ using JewelArchitecture.Examples.SmartCharging.WebApiTest.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Pokedex.Interface.Pokemon;
-using PokeDex.Domain;
+using PokeDex.Domain.Pokemon;
 using Shouldly;
 
 namespace Pokedex.Test.Pokemon
@@ -32,6 +32,38 @@ namespace Pokedex.Test.Pokemon
             pokemon!.Description.ShouldBe(expectedDescription);
             pokemon!.Habitat.ShouldBe(expectedHabitat);
             pokemon!.IsLegendary.ShouldBe(expectedIsLegendary);
+        }
+
+        [Theory]
+        [InlineData("Pikachu", 25)]
+        [InlineData("pikachu", 25)]
+        [InlineData("pikAchu", 25)]
+        public async Task GetPokemonAsync_CaseInsensitive(string name, int expectedId)
+        {
+            // Arrange
+            var controller = ServiceProvider!.GetRequiredService<PokemonController>();
+
+            // Act
+            var response = await controller.GetPokemonAsync(name);
+
+            // Assert
+            response.ShouldBeOfType<OkObjectResult>();
+            var okResult = response as OkObjectResult;
+            var pokemon = okResult!.Value as PokemonAggregate;
+            pokemon!.Id.ShouldBe(expectedId);           
+        }
+
+        [Fact]
+        public async Task GetPokemonAsync_NotFound()
+        {
+            // Arrange
+            var controller = ServiceProvider!.GetRequiredService<PokemonController>();
+
+            // Act
+            var response = await controller.GetPokemonAsync("pincopallino");
+
+            // Assert
+            response.ShouldBeOfType<NotFoundResult>();            
         }
     }
 }

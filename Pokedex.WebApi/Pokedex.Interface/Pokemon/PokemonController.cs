@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Pokedex.Application.Pokemon.ApplicationServices;
-using PokeDex.Domain;
+using Pokedex.Domain.Exceptions;
+using PokeDex.Domain.Pokemon;
 
 namespace Pokedex.Interface.Pokemon;
 
@@ -13,13 +14,15 @@ public class PokemonController(PokemonService pokemonService) : ControllerBase
     [ProducesResponseType<PokemonAggregate>(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> GetPokemonAsync(string name)
     {
-        var pokemon = await pokemonService.GetAsync(name);
+        try
+        {
+            var pokemon = await pokemonService.GetAsync(name);
 
-        if (pokemon == null)
+            return Ok(pokemon);
+        }
+        catch (PokemonNotFoundException)
         {
             return NotFound();
         }
-
-        return Ok(pokemon);
     }
 }

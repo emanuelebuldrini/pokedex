@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using System.Net;
 using System.Text.Json;
 using UrlCombineLib;
 
@@ -27,11 +28,17 @@ public class PokedexClient : IDisposable
         };
     }
 
-    public async Task<TDeserialize> FetchAsync<TDeserialize>(string endpoint, string? resourceName)
+    public async Task<TDeserialize?> FetchAsync<TDeserialize>(string endpoint, string? resourceName)
         where TDeserialize : class
     {
         using var response = await _httpClient.GetAsync($"{endpoint}/{resourceName}");
-        response.EnsureSuccessStatusCode();
+        
+        if (response.StatusCode == HttpStatusCode.NotFound)
+        {
+           return null;
+        }  
+        
+        response.EnsureSuccessStatusCode();                
         using var stream = await response.Content.ReadAsStreamAsync();
 
         return await JsonSerializer.DeserializeAsync<TDeserialize>(stream, _jsonOptions) ??

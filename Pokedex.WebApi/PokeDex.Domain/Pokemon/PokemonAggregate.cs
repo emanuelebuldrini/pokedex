@@ -1,6 +1,6 @@
 ﻿using JewelArchitecture.Core.Domain.BaseTypes;
 
-namespace PokeDex.Domain;
+namespace PokeDex.Domain.Pokemon;
 
 public record PokemonAggregate : AggregateRootBase<int>
 {
