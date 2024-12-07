@@ -9,7 +9,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddJewelArchitecture();
-builder.Services.AddPokedex(builder.Configuration.GetSection("PokedexApi"));
+var pokedexApiConfig = builder.Configuration.GetSection("PokedexApi");
+var funTranslationsApiConfig = builder.Configuration.GetSection("FunTranslationsApi");
+builder.Services.AddPokedex(pokedexApiConfig, funTranslationsApiConfig);
 
 var app = builder.Build();
 

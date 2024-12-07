@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\JewelArchitecture.Core\JewelArchitecture.Core.Application\JewelArchitecture.Core.Application.csproj" />
-    <ProjectReference Include="..\PokeDex.Domain\PokeDex.Domain.csproj" />
+    <ProjectReference Include="..\PokeDex.Domain\Pokedex.Domain.csproj" />
   </ItemGroup>
 
 </Project>

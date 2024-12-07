@@ -1,4 +1,6 @@
-﻿namespace Pokedex.Application.Pokemon.Dto;
+﻿using Pokedex.Application.Shared;
+
+namespace Pokedex.Application.Pokemon.Dto;
 
 public class PokemonSpeciesDto : NameDto
 {

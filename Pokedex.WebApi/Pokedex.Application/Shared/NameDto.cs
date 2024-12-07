@@ -1,4 +1,4 @@
-﻿namespace Pokedex.Application.Pokemon.Dto;
+﻿namespace Pokedex.Application.Shared;
 
 public class NameDto
 {

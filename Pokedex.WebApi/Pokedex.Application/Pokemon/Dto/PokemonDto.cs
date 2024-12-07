@@ -1,4 +1,6 @@
 ﻿
+using Pokedex.Application.Shared;
+
 namespace Pokedex.Application.Pokemon.Dto;
 
 public class PokemonDto

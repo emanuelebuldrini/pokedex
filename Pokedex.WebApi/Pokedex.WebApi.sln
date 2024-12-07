@@ -5,8 +5,6 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokedex.Interface", "Pokedex.Interface\Pokedex.Interface.csproj", "{F3EA9AB2-040A-4F1A-B25C-97CBBDDA2D91}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokeDex.Domain", "PokeDex.Domain\PokeDex.Domain.csproj", "{2E020975-D752-4579-ACA8-48AD20C6AC56}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokedex.Application", "Pokedex.Application\Pokedex.Application.csproj", "{0714E8D8-5BCD-4770-9E60-1087ADDFB361}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokedex.Test", "Pokedex.Test\Pokedex.Test.csproj", "{B98880D9-5B23-460E-BC2F-0A6CC05A3231}"
@@ -23,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JewelArchitecture.Core.Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JewelArchitecture.Core.Infrastructure", "..\JewelArchitecture.Core\JewelArchitecture.Core.Infrastructure\JewelArchitecture.Core.Infrastructure.csproj", "{12C64ADF-541F-4C8F-AF44-687510A3DBB4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokedex.Domain", "Pokedex.Domain\Pokedex.Domain.csproj", "{884F9661-4916-4CA9-B913-C9F6DD193776}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,10 +33,6 @@ Global
 		{F3EA9AB2-040A-4F1A-B25C-97CBBDDA2D91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3EA9AB2-040A-4F1A-B25C-97CBBDDA2D91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3EA9AB2-040A-4F1A-B25C-97CBBDDA2D91}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2E020975-D752-4579-ACA8-48AD20C6AC56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E020975-D752-4579-ACA8-48AD20C6AC56}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E020975-D752-4579-ACA8-48AD20C6AC56}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2E020975-D752-4579-ACA8-48AD20C6AC56}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0714E8D8-5BCD-4770-9E60-1087ADDFB361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0714E8D8-5BCD-4770-9E60-1087ADDFB361}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0714E8D8-5BCD-4770-9E60-1087ADDFB361}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -65,6 +61,10 @@ Global
 		{12C64ADF-541F-4C8F-AF44-687510A3DBB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12C64ADF-541F-4C8F-AF44-687510A3DBB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12C64ADF-541F-4C8F-AF44-687510A3DBB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{884F9661-4916-4CA9-B913-C9F6DD193776}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{884F9661-4916-4CA9-B913-C9F6DD193776}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{884F9661-4916-4CA9-B913-C9F6DD193776}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{884F9661-4916-4CA9-B913-C9F6DD193776}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
