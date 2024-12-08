@@ -18,7 +18,7 @@ namespace Pokedex.Application.Pokemon.UseCases
             var translationType = pokemon.RequiresTranslation();
             try
             {
-                var translation = await funTranslationService.TranslateAsync(pokemon.Description, translationType);
+                var translation = await funTranslationService.TranslateAsync(pokemon.Description, translationType, input.PokemonName);
                 pokemon.Description = translation;
             }
             catch (Exception exception)
