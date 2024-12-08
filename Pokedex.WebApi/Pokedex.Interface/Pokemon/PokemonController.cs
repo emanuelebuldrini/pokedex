@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Pokedex.Application.Pokemon.ApplicationServices;
 using Pokedex.Application.Pokemon.UseCases;
-using Pokedex.Application.Shared.Exceptions;
 using Pokedex.Domain.Pokemon.Exceptions;
 using PokeDex.Domain.Pokemon;
 
@@ -31,7 +30,6 @@ public class PokemonController(PokemonService pokemonService,
 
     [HttpGet("Translated/{name}")]
     [ProducesResponseType<PokemonAggregate>(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> GetPokemonTranslatedAsync(string name)
     {
@@ -46,10 +44,6 @@ public class PokemonController(PokemonService pokemonService,
         catch (PokemonNotFoundException)
         {
             return NotFound();
-        }
-        catch (RateLimitExceededException exception)
-        {
-            return StatusCode(StatusCodes.Status429TooManyRequests, exception.Message);
-        }
+        }        
     }
 }
