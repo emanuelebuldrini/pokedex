@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
+using Pokedex.Application.Shared.Exceptions;
 using Pokedex.Domain.Shared;
+using System.Net;
 using System.Text.Json;
 using UrlCombineLib;
 
@@ -36,8 +38,15 @@ public class FunTranslationsClient : IDisposable
         var relativeUri = $"{endpoint}.{_apiResponseFormat}?{queryString}";
 
         using var response = await _httpClient.GetAsync(relativeUri);
-
-        response.EnsureSuccessStatusCode();
+        
+        if (response.StatusCode == HttpStatusCode.TooManyRequests)
+        {
+            throw new RateLimitExceededException("Funtranslations",
+                "The rate limit is 60 API calls per day, with a maximum of 5 calls per hour. " +
+                "Consider subscribing to a paid plan if you anticipate a higher workload.");
+        }
+        
+        response.EnsureSuccessStatusCode(); 
 
         using var stream = await response.Content.ReadAsStreamAsync();
 
