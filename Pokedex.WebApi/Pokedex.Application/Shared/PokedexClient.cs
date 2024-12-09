@@ -8,18 +8,16 @@ namespace Pokedex.Application.Shared;
 public class PokedexClient : IDisposable
 {
     private readonly HttpClient _httpClient;
-    private readonly string _apiVersion;
     private readonly JsonSerializerOptions _jsonOptions;
 
     public PokedexClient(HttpClient httpClient, IOptions<PokedexApiOptions> options)
     {
         _httpClient = httpClient;
-        _apiVersion = options.Value.Version;
 
         var baseUrl = options.Value.BaseUrl;
-        _httpClient.BaseAddress = new Uri(baseUrl.CombineUrl(_apiVersion)
+        _httpClient.BaseAddress = baseUrl
         // Add a final slash to avoid overwriting the base address with the relative address.
-            .CombineUrl("/"));
+            .Combine("/");
 
         _jsonOptions = new JsonSerializerOptions
         {

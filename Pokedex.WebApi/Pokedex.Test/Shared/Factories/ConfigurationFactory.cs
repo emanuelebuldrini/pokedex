@@ -8,8 +8,7 @@ public class ConfigurationFactory
     {
         var inMemorySettings = new Dictionary<string, string?>
         {
-            { "PokedexApi:BaseUrl", "https://pokeapi.co/api" },
-            { "PokedexApi:Version", "v2" },
+            { "PokedexApi:BaseUrl", "https://pokeapi.co/api/v2" },
             { "FunTranslationsApi:BaseUrl", "https://api.funtranslations.com/translate" }
         };
 
