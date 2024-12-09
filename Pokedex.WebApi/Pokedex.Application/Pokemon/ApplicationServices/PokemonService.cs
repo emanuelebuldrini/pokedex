@@ -3,21 +3,37 @@ using Pokedex.Application.Pokemon.Dto;
 using Pokedex.Application.Shared;
 using Pokedex.Domain.Pokemon.Exceptions;
 using PokeDex.Domain.Pokemon;
+using System.Net;
 
 namespace Pokedex.Application.Pokemon.ApplicationServices;
 
-public class PokemonService(PokedexClient pokedexClient) : IDisposable
+public class PokemonService(PokeapiClient pokeapiClient) : IDisposable
 {
     public async Task<PokemonAggregate> GetAsync(string name)
     {
-        var pokemon = await pokedexClient.FetchAsync<PokemonDto>(endpoint: "pokemon",
-            // Pokeapi is case-sensitive and lowercase by default.
-            // Make it here case-insensitive to be more user-friendly.
-            name.ToLowerInvariant()) ?? throw new PokemonNotFoundException(name);
+        // Pokeapi is case-sensitive and lowercase by default.
+        // Make it here case-insensitive to be more user-friendly.
+        var pokemonName = name.ToLowerInvariant();
+        var relativeUri = $"pokemon/{pokemonName}";
+
+        PokemonDto pokemon;
+        try
+        {
+            pokemon = await pokeapiClient.FetchAsync<PokemonDto>(relativeUri, cacheId: $"{pokemonName}.pokemon");
+        }
+        catch (HttpRequestException exception)
+        {
+            if (exception.StatusCode == HttpStatusCode.NotFound)
+            {
+                throw new PokemonNotFoundException(name);
+            }
+            throw;
+        }
 
         // Details about the Pokemon species is located in a dedicated endpoint.
-        var pokemonSpecies = await pokedexClient.FetchAsync<PokemonSpeciesDto>(endpoint: "pokemon-species",
-            pokemon.Species.Name) ?? throw new PokemonSpeciesNotFoundException(pokemon.Species.Name);
+        var speciesName = pokemon.Species.Name;
+        relativeUri = $"pokemon-species/{speciesName}";
+        var pokemonSpecies = await pokeapiClient.FetchAsync<PokemonSpeciesDto>(relativeUri, cacheId: $"{speciesName}.species");
 
         // Pokemon flavor text comes in different languages and depends on the version of the game.
         var flavorText = pokemonSpecies.FlavorTextEntries
@@ -40,6 +56,6 @@ public class PokemonService(PokedexClient pokedexClient) : IDisposable
 
     public void Dispose()
     {
-        pokedexClient.Dispose();
+        pokeapiClient.Dispose();
     }
 }

@@ -19,9 +19,9 @@ public static class IServiceCollectionExtension
         serviceCollection.AddTransient<FunTranslationService>();
 
         // Register external API clients.
-        serviceCollection.AddHttpClient<PokedexClient>();
-        serviceCollection.Configure<PokedexApiOptions>(pokedexConfigSection)
-            .AddOptionsWithValidateOnStart<PokedexApiOptions>();
+        serviceCollection.AddHttpClient<PokeapiClient>();
+        serviceCollection.Configure<PokeapiOptions>(pokedexConfigSection)
+            .AddOptionsWithValidateOnStart<PokeapiOptions>();
 
         serviceCollection.AddHttpClient<FunTranslationsClient>();
         serviceCollection.Configure<FunTranslationsApiOptions>(funTranslationsConfigSection)
