@@ -1,7 +1,7 @@
 ﻿using Pokedex.Application.Pokemon.ApplicationServices;
 using Pokedex.Application.Pokemon.UseCases;
-using Pokedex.Application.Shared;
 using Pokedex.Application.Shared.FunTranslations;
+using Pokedex.Application.Shared.Pokeapi;
 
 namespace Pokedex.Interface.Shared;
 

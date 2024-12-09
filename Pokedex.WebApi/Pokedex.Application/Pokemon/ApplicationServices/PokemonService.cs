@@ -1,6 +1,7 @@
 ﻿
 using Pokedex.Application.Pokemon.Dto;
 using Pokedex.Application.Shared;
+using Pokedex.Application.Shared.Pokeapi;
 using Pokedex.Domain.Pokemon.Exceptions;
 using PokeDex.Domain.Pokemon;
 using System.Net;
