@@ -1,9 +1,21 @@
 # Pokedex
-This repository contains a fun version of the Pokédex, where under certain conditions the description of the Pokemon is translated using Yoda or Shakespeare language.
+This repository contains a **fun version of the Pokédex**, where under certain conditions the description of the Pokemon is translated using **Yoda's or Shakespeare's language**.
+
+## Solution Structure
+The solution has been implemented using a framework of mine: it is a fusion of DDD, CQRS, and Clean Architecture—It leverages their individual strengths to **create scalable, maintainable, and valuable systems.** I call it Jewel Architecture, because it organizes your system into multifaceted, interchangeable components, creating a highly valuable and mantainable structure—like a finely cut gem. It uses an aggregate-based folder structure and follows a clean architecture, with the following key layers:
+
+**- Application Layer:** Contains use cases, services and business logic.
+
+**- Domain Layer:** Defines entities, aggregates, value objects, invariants and domain logic.
+
+**- Infrastructure Layer:** Optional infrastructure components.
+
+**- Interface Layer:** ASP.NET Core Web API exposing application endpoints.
+
 ## Prerequisites
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) installed on your machine
   
-It is an ASP.NET Core Web API project built with .NET 8. The API is configured with Swagger for API documentation.
+It is an **ASP.NET Core Web API** project built with .NET 8. The API is **configured with Swagger** for API documentation.
 
 ## Getting Started
 
