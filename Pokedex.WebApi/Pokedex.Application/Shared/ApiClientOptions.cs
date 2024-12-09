@@ -6,4 +6,5 @@ public class ApiClientOptions
 {
     [Required]
     public required Uri BaseUrl { get; set; }
+    public TimeSpan? CacheDuration { get; set; }
 }

@@ -7,7 +7,9 @@ namespace Pokedex.Application.Shared;
 
 public abstract class ApiClient : IDisposable
 {
-    protected const string CacheFolder = ".Cache";
+    private const string CacheFolder = ".Cache";
+    private readonly TimeSpan? _cacheDuration;
+
     private readonly HttpClient _httpClient;
     private readonly ILogger<ApiClient> _logger;
 
@@ -19,17 +21,19 @@ public abstract class ApiClient : IDisposable
     {
         _httpClient = httpClient;
         _logger = logger;
+        _cacheDuration = options.Value.CacheDuration;
         _httpClient.BaseAddress = options.Value.BaseUrl
             // Add a final slash to avoid overwriting the base address with the relative address.
             .Combine("/");
     }
 
-    public virtual async Task<TDeserialize> FetchAsync<TDeserialize>(string relativeUri, string cacheId)
+    public virtual async Task<TDeserialize> FetchAsync<TDeserialize>(string relativeUri, string? cacheId)
        where TDeserialize : class
     {
         var cachedFilePath = Path.Combine(CacheFolder, ApiName, $"{cacheId}.json");
 
-        if (File.Exists(cachedFilePath))
+        if (cacheId != null && File.Exists(cachedFilePath)
+            && IsCacheEnabled() && IsCacheExpired(cachedFilePath) == false)
         {
             using var cachedFileStream = new FileStream(cachedFilePath, FileMode.Open, FileAccess.Read);
             return await DeserializeResponse<TDeserialize>(cachedFileStream);
@@ -45,10 +49,26 @@ public abstract class ApiClient : IDisposable
         using var memoryStream = new MemoryStream();
         await responseStream.CopyToAsync(memoryStream);
 
-        await CacheResponseAsFile(cacheId, memoryStream);
+        if (cacheId != null && IsCacheEnabled())
+        {
+            await CacheResponseAsFile(cacheId, memoryStream);
+        }
 
         memoryStream.Position = 0;
         return await DeserializeResponse<TDeserialize>(memoryStream);
+    }
+
+    private bool IsCacheEnabled() => _cacheDuration != null;
+
+    private bool? IsCacheExpired(string cachedFilePath)
+    {
+        if (_cacheDuration == null)
+        {
+            return null;
+        }
+
+        return DateTime.UtcNow - File.GetCreationTimeUtc(cachedFilePath)
+            > _cacheDuration.Value;
     }
 
     private async Task<TDeserialize> DeserializeResponse<TDeserialize>(Stream stream) where TDeserialize : class
