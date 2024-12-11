@@ -1,14 +1,14 @@
 ﻿
+using Pokedex.Application.Abstractions;
 using Pokedex.Application.Pokemon.Dto;
 using Pokedex.Application.Shared;
-using Pokedex.Application.Shared.Pokeapi;
 using Pokedex.Domain.Pokemon.Exceptions;
 using PokeDex.Domain.Pokemon;
 using System.Net;
 
 namespace Pokedex.Application.Pokemon.ApplicationServices;
 
-public class PokemonService(PokeapiClient pokeapiClient) : IDisposable
+public class PokemonService(IPokeapiClient pokeapiClient) : IDisposable
 {
     public async Task<PokemonAggregate> GetAsync(string name)
     {

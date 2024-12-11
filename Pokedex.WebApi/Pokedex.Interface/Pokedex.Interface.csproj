@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\JewelArchitecture.Core\JewelArchitecture.Core.Interface\JewelArchitecture.Core.Interface.csproj" />
     <ProjectReference Include="..\Pokedex.Application\Pokedex.Application.csproj" />
+    <ProjectReference Include="..\Pokedex.Infrastructure\Pokedex.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

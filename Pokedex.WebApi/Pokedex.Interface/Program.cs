@@ -9,9 +9,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddJewelArchitecture();
-var pokedexApiConfig = builder.Configuration.GetSection("PokedexApi");
-var funTranslationsApiConfig = builder.Configuration.GetSection("FunTranslationsApi");
-builder.Services.AddPokedex(pokedexApiConfig, funTranslationsApiConfig);
+builder.Services.AddPokedex();
+
+// Add external API clients to get Pokemon's data and related fun translations.
+var pokedexApiConfig = builder.Configuration.GetSection("Pokeapi");
+builder.Services.AddPokeapiClient(pokedexApiConfig);
+
+var funTranslationsApiConfig = builder.Configuration.GetSection("FuntranslationsApi");
+builder.Services.AddFuntranslationsClient(funTranslationsApiConfig);
 
 var app = builder.Build();
 

@@ -1,8 +1,9 @@
-﻿using Pokedex.Domain.Shared;
+﻿using Pokedex.Application.Abstractions;
+using Pokedex.Domain.Shared;
 
 namespace Pokedex.Application.Shared.FunTranslations;
 
-public class FunTranslationService(FunTranslationsClient funTranslationsClient) : IDisposable
+public class FunTranslationService(IFuntranslationsClient funTranslationsClient) : IDisposable
 {
     // Use JSON format to get responses from Funtranslations: API default is XML.
     private readonly string _apiResponseFormat = "json";

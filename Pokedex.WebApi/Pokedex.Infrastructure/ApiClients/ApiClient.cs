@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using UrlCombineLib;
 
-namespace Pokedex.Application.Shared;
+namespace Pokedex.Infrastructure.ApiClients;
 
 public abstract class ApiClient : IDisposable
 {

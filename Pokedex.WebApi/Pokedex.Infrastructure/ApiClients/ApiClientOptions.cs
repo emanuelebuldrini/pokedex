@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Pokedex.Application.Shared;
+namespace Pokedex.Infrastructure.ApiClients;
 
 public class ApiClientOptions
 {

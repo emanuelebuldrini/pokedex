@@ -18,12 +18,14 @@ internal class ServiceCollectionFactory
             .AddControllersAsServices();
 
         var config = ConfigurationFactory.GetExternalApiConfig();
-        var pokemonApiConfig = config.GetSection("PokedexApi");
-        var funTranslationsApiConfig = config.GetSection("FunTranslationsApi");
+        var pokemonApiConfig = config.GetSection("Pokeapi");
+        var funTranslationsApiConfig = config.GetSection("FuntranslationsApi");
 
         serviceCollection
             .AddJewelArchitecture()
-            .AddPokedex(pokemonApiConfig, funTranslationsApiConfig);
+            .AddPokedex()
+            .AddPokeapiClient(pokemonApiConfig)
+            .AddFuntranslationsClient(funTranslationsApiConfig);
 
         return serviceCollection;
     }

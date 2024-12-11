@@ -1,31 +1,45 @@
-﻿using Pokedex.Application.Pokemon.ApplicationServices;
+﻿using Pokedex.Application.Abstractions;
+using Pokedex.Application.Pokemon.ApplicationServices;
 using Pokedex.Application.Pokemon.UseCases;
 using Pokedex.Application.Shared.FunTranslations;
-using Pokedex.Application.Shared.Pokeapi;
+using Pokedex.Infrastructure.ApiClients.FunTranslations;
+using Pokedex.Infrastructure.ApiClients.Pokeapi;
 
 namespace Pokedex.Interface.Shared;
 
 public static class IServiceCollectionExtension
 {
-    public static IServiceCollection AddPokedex(this IServiceCollection serviceCollection,
-        IConfigurationSection pokedexConfigSection,
-        IConfigurationSection funTranslationsConfigSection)
+    public static IServiceCollection AddPokedex(this IServiceCollection serviceCollection)
     {
         // The following services depend on HttpClient:
         // They should be transient services to avoid trapping HttpClient's lifetime.
         serviceCollection.AddTransient<PokemonService>();
         serviceCollection.AddTransient<PokemonTranslatedCase>();
-
         serviceCollection.AddTransient<FunTranslationService>();
 
-        // Register external API clients.
+        serviceCollection.AddTransient<IPokeapiClient,PokeapiClient>();
+        serviceCollection.AddTransient<IFuntranslationsClient,FuntranslationsClient>();
+        return serviceCollection;
+    }
+
+    // Add external API client helpers
+
+    public static IServiceCollection AddPokeapiClient(this IServiceCollection serviceCollection,
+        IConfigurationSection pokeapiConfigSection)
+    {
         serviceCollection.AddHttpClient<PokeapiClient>();
-        serviceCollection.Configure<PokeapiOptions>(pokedexConfigSection)
+        serviceCollection.Configure<PokeapiOptions>(pokeapiConfigSection)
             .AddOptionsWithValidateOnStart<PokeapiOptions>();
 
-        serviceCollection.AddHttpClient<FunTranslationsClient>();
-        serviceCollection.Configure<FunTranslationsApiOptions>(funTranslationsConfigSection)
-            .AddOptionsWithValidateOnStart<FunTranslationsApiOptions>();
+        return serviceCollection;
+    }
+
+    public static IServiceCollection AddFuntranslationsClient(this IServiceCollection serviceCollection,
+       IConfigurationSection funTranslationsConfigSection)
+    {
+        serviceCollection.AddHttpClient<FuntranslationsClient>();
+        serviceCollection.Configure<FuntranslationsApiOptions>(funTranslationsConfigSection)
+            .AddOptionsWithValidateOnStart<FuntranslationsApiOptions>();
 
         return serviceCollection;
     }

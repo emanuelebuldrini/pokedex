@@ -8,11 +8,11 @@ public class ConfigurationFactory
     {
         var inMemorySettings = new Dictionary<string, string?>
         {
-            { "PokedexApi:BaseUrl", "https://pokeapi.co/api/v2" },
-            { "PokedexApi:CacheDuration", "10675199.02:48:05" },
-            { "FunTranslationsApi:BaseUrl", "https://api.funtranslations.com/translate" },
+            { "Pokeapi:BaseUrl", "https://pokeapi.co/api/v2" },
+            { "Pokeapi:CacheDuration", "10675199.02:48:05" },
+            { "FuntranslationsApi:BaseUrl", "https://api.funtranslations.com/translate" },
             // Set essentially no cache expiration for testing purposes: duration of TimeSpan.MaxValue.
-            { "FunTranslationsApi:CacheDuration", "10675199.02:48:05" }
+            { "FuntranslationsApi:CacheDuration", "10675199.02:48:05" }
         };
 
         return new ConfigurationBuilder()
