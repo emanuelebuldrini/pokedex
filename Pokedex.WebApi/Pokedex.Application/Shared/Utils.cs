@@ -1,4 +1,7 @@
-﻿namespace Pokedex.Application.Shared;
+﻿
+using System.Text.RegularExpressions;
+
+namespace Pokedex.Application.Shared;
 
 public class Utils
 {
@@ -11,5 +14,11 @@ public class Utils
 
         // Replace line endings like \n, \f with a space.
         return flavorText.ReplaceLineEndings(" ");
+    }
+
+    public static string SanitizeTranslation(string translation)
+    {
+        // Replace multiple spaces with a single space
+        return Regex.Replace(translation, @"\s{2,}", " ");
     }
 }

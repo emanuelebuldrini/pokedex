@@ -2,6 +2,7 @@
 using JewelArchitecture.Core.Application.UseCases;
 using Microsoft.Extensions.Logging;
 using Pokedex.Application.Pokemon.ApplicationServices;
+using Pokedex.Application.Shared;
 using Pokedex.Application.Shared.FunTranslations;
 using PokeDex.Domain.Pokemon;
 
@@ -18,8 +19,10 @@ namespace Pokedex.Application.Pokemon.UseCases
             var translationType = pokemon.RequiresTranslation();
             try
             {
-                var translation = await funTranslationService.TranslateAsync(pokemon.Description, translationType, input.PokemonName);
-                pokemon.Description = translation;
+                var translation = await funTranslationService.TranslateAsync(pokemon.Description,
+                    translationType, cacheId: $"{pokemon.Name}.description");
+                // Yoda translation has double spaces after comma: so clean it up.
+                pokemon.Description = Utils.SanitizeTranslation(translation);
             }
             catch (Exception exception)
             {
