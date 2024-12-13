@@ -70,9 +70,9 @@ namespace Pokedex.Test.Pokemon
 
         [Theory]
         [InlineData("mewtwo", 150, "rare", true,
-           "Created by a scientist after years of horrific gene splicing and dna engineering experiments,  it was.")]
+           "Created by a scientist after years of horrific gene splicing and dna engineering experiments, it was.")]
         [InlineData("steelix", 208, "cave", false,
-           "Thought its body transformed as a result of iron accumulating internally from swallowing soil,  it is.")]
+           "Thought its body transformed as a result of iron accumulating internally from swallowing soil, it is.")]
         [InlineData("clefairy", 35, "mountain", false,
             "Its magical and cute appeal hath many admirers. 't is rare and did find only in certain areas.")]
         public async Task GetPokemonTranslatedAsync_Success(string name, int expectedId, string expectedHabitat,

@@ -1,42 +1,42 @@
 ﻿using System.Text.Json;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Pokedex.Infrastructure.Caching;
 using UrlCombineLib;
 
 namespace Pokedex.Infrastructure.ApiClients;
 
 public abstract class ApiClient : IDisposable
 {
-    private const string CacheFolder = ".Cache";
-    private readonly TimeSpan? _cacheDuration;
-
     private readonly HttpClient _httpClient;
-    private readonly ILogger<ApiClient> _logger;
+    private readonly IStreamCachingService? _cachingService;
+    private readonly TimeSpan? _cacheDuration;
 
     protected abstract string ApiName { get; }
 
     protected virtual JsonSerializerOptions JsonOptions { get; } = new JsonSerializerOptions();
 
-    protected ApiClient(HttpClient httpClient, IOptions<ApiClientOptions> options, ILogger<ApiClient> logger)
+    protected ApiClient(HttpClient httpClient, IOptions<ApiClientOptions> options,
+        IStreamCachingService? cachingService = null)
     {
         _httpClient = httpClient;
-        _logger = logger;
+        _cachingService = cachingService;
         _cacheDuration = options.Value.CacheDuration;
         _httpClient.BaseAddress = options.Value.BaseUrl
             // Add a final slash to avoid overwriting the base address with the relative address.
             .Combine("/");
     }
 
-    public virtual async Task<TDeserialize> FetchAsync<TDeserialize>(string relativeUri, string? cacheId)
+    public virtual async Task<TDeserialize> FetchAsync<TDeserialize>(string relativeUri, string? cacheKey)
        where TDeserialize : class
     {
-        var cachedFilePath = Path.Combine(CacheFolder, ApiName, $"{cacheId}.json");
-
-        if (cacheId != null && File.Exists(cachedFilePath)
-            && IsCacheEnabled() && IsCacheExpired(cachedFilePath) == false)
+        if (cacheKey != null && _cacheDuration != null &&
+            _cachingService?.TryGetFromCache(cacheTopic: ApiName, cacheKey, _cacheDuration.Value,
+            out Stream? cachedResponse) == true)
         {
-            using var cachedFileStream = new FileStream(cachedFilePath, FileMode.Open, FileAccess.Read);
-            return await DeserializeResponse<TDeserialize>(cachedFileStream);
+            var deserializedResponse = await DeserializeResponse<TDeserialize>(cachedResponse!);
+            await cachedResponse!.DisposeAsync();
+
+            return deserializedResponse;
         }
 
         using var response = await _httpClient.GetAsync(relativeUri);
@@ -46,29 +46,16 @@ public abstract class ApiClient : IDisposable
         using var responseStream = await response.Content.ReadAsStreamAsync();
 
         // Clone the response stream into a MemoryStream for multiple operations
-        using var memoryStream = new MemoryStream();
-        await responseStream.CopyToAsync(memoryStream);
+        using var memoryResponseStream = new MemoryStream();
+        await responseStream.CopyToAsync(memoryResponseStream);
 
-        if (cacheId != null && IsCacheEnabled())
+        if (cacheKey != null && IsCacheEnabled())
         {
-            await CacheResponseAsFile(cacheId, memoryStream);
+            await _cachingService!.CacheResponseAsync(cacheTopic: ApiName, cacheKey, memoryResponseStream);
         }
 
-        memoryStream.Position = 0;
-        return await DeserializeResponse<TDeserialize>(memoryStream);
-    }
-
-    private bool IsCacheEnabled() => _cacheDuration != null;
-
-    private bool? IsCacheExpired(string cachedFilePath)
-    {
-        if (_cacheDuration == null)
-        {
-            return null;
-        }
-
-        return DateTime.UtcNow - File.GetCreationTimeUtc(cachedFilePath)
-            > _cacheDuration.Value;
+        memoryResponseStream.Position = 0;
+        return await DeserializeResponse<TDeserialize>(memoryResponseStream);
     }
 
     private async Task<TDeserialize> DeserializeResponse<TDeserialize>(Stream stream) where TDeserialize : class
@@ -77,32 +64,7 @@ public abstract class ApiClient : IDisposable
             throw new InvalidDataException($"Unable to deserialize the response to type {nameof(TDeserialize)}");
     }
 
-    private async Task CacheResponseAsFile(string cacheId, MemoryStream memoryStream)
-    {
-        if (!Directory.Exists(CacheFolder))
-        {
-            Directory.CreateDirectory(CacheFolder);
-        }
-        var apiCachePath = Path.Combine(CacheFolder, ApiName);
-        if (!Directory.Exists(apiCachePath))
-        {
-            Directory.CreateDirectory(apiCachePath);
-        }
-        string filePath = Path.Combine(apiCachePath, $"{cacheId}.json");
-
-        try
-        {
-            // Reset the memory stream position to the beginning
-            memoryStream.Position = 0;
-            using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
-
-            await memoryStream.CopyToAsync(fileStream);
-        }
-        catch (Exception exception)
-        {
-            _logger.LogError(exception, exception.Message);
-        }
-    }
+    private bool IsCacheEnabled() => _cachingService != null && _cacheDuration != null;
 
     public void Dispose()
     {

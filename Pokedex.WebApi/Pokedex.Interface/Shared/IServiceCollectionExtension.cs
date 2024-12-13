@@ -4,6 +4,7 @@ using Pokedex.Application.Pokemon.UseCases;
 using Pokedex.Application.Shared.FunTranslations;
 using Pokedex.Infrastructure.ApiClients.FunTranslations;
 using Pokedex.Infrastructure.ApiClients.Pokeapi;
+using Pokedex.Infrastructure.Caching;
 
 namespace Pokedex.Interface.Shared;
 
@@ -17,8 +18,12 @@ public static class IServiceCollectionExtension
         serviceCollection.AddTransient<PokemonTranslatedCase>();
         serviceCollection.AddTransient<FunTranslationService>();
 
-        serviceCollection.AddTransient<IPokeapiClient,PokeapiClient>();
-        serviceCollection.AddTransient<IFuntranslationsClient,FuntranslationsClient>();
+        serviceCollection.AddTransient<IPokeapiClient, PokeapiClient>();
+        serviceCollection.AddTransient<IFuntranslationsClient, FuntranslationsClient>();
+
+        // Used to cache responses from the external APIs.
+        serviceCollection.AddSingleton<IStreamCachingService, FileStreamCachingService>();
+        
         return serviceCollection;
     }
 

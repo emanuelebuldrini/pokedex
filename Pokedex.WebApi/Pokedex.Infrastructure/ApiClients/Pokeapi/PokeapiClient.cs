@@ -1,13 +1,13 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Pokedex.Application.Abstractions;
+using Pokedex.Infrastructure.Caching;
 using System.Text.Json;
 
 namespace Pokedex.Infrastructure.ApiClients.Pokeapi;
 
 public sealed class PokeapiClient(HttpClient httpClient, IOptions<PokeapiOptions> options,
-    ILogger<PokeapiClient> logger)
-    : ApiClient(httpClient, options, logger), IPokeapiClient
+    IStreamCachingService cachingService)
+    : ApiClient(httpClient, options, cachingService), IPokeapiClient
 {
     private readonly JsonSerializerOptions _jsonOptions = new()
     {

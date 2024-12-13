@@ -1,14 +1,14 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Pokedex.Application.Abstractions;
 using Pokedex.Application.Shared.FunTranslations;
+using Pokedex.Infrastructure.Caching;
 using System.Text.Json;
 
 namespace Pokedex.Infrastructure.ApiClients.FunTranslations;
 
 public sealed class FuntranslationsClient(HttpClient httpClient, IOptions<FuntranslationsApiOptions> options,
-    ILogger<FuntranslationsClient> logger)
-    : ApiClient(httpClient, options, logger), IFuntranslationsClient
+    IStreamCachingService cachingService)
+    : ApiClient(httpClient, options, cachingService), IFuntranslationsClient
 {
     private readonly JsonSerializerOptions _jsonOptions = new()
     {
