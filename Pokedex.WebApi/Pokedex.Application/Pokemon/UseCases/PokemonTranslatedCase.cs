@@ -21,7 +21,9 @@ namespace Pokedex.Application.Pokemon.UseCases
             {
                 var translation = await funTranslationService.TranslateAsync(pokemon.Description,
                     translationType, cacheId: $"{pokemon.Name}.description");
-                // Yoda translation has double spaces after comma: so clean it up.
+
+                // Yoda translation response needs sanitization because has double spaces after comma.
+                // Furthermore, if there is a full stop between two sentences it has no space after.
                 pokemon.Description = Utils.SanitizeTranslation(translation);
             }
             catch (Exception exception)

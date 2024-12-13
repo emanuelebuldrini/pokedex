@@ -19,6 +19,9 @@ public class Utils
     public static string SanitizeTranslation(string translation)
     {
         // Replace multiple spaces with a single space
-        return Regex.Replace(translation, @"\s{2,}", " ");
+        var sanitizedSpaces = Regex.Replace(translation, @"\s{2,}", " ");
+
+        // Add a space after a full stop that separates two sentences.
+        return Regex.Replace(sanitizedSpaces, @"(?<=\w)\.(?=\w)", ". ");
     }
 }

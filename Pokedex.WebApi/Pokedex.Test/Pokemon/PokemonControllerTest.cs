@@ -71,6 +71,8 @@ namespace Pokedex.Test.Pokemon
         [Theory]
         [InlineData("mewtwo", 150, "rare", true,
            "Created by a scientist after years of horrific gene splicing and dna engineering experiments, it was.")]
+        [InlineData("diglett", 50, "cave", false,
+            "On plant roots, lives about one yard underground where it feeds. Above ground, it sometimes appears.")]
         [InlineData("steelix", 208, "cave", false,
            "Thought its body transformed as a result of iron accumulating internally from swallowing soil, it is.")]
         [InlineData("clefairy", 35, "mountain", false,
