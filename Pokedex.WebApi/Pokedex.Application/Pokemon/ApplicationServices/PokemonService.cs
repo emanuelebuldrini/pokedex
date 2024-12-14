@@ -1,39 +1,24 @@
 ﻿
+using JewelArchitecture.Core.Application.QueryHandlers;
 using Pokedex.Application.Abstractions;
 using Pokedex.Application.Pokemon.Dto;
+using Pokedex.Application.Pokemon.Queries;
 using Pokedex.Application.Shared;
-using Pokedex.Domain.Pokemon.Exceptions;
 using PokeDex.Domain.Pokemon;
-using System.Net;
 
 namespace Pokedex.Application.Pokemon.ApplicationServices;
 
-public class PokemonService(IPokeapiClient pokeapiClient) : IDisposable
+public class PokemonService(IPokeapiClient pokeapiClient,
+    IQueryHandler<PokemonByNameQuery,PokemonDto> pokemonByNameQueryHandler)
+    : IDisposable
 {
     public async Task<PokemonAggregate> GetAsync(string name)
     {
-        // Pokeapi is case-sensitive and lowercase by default.
-        // Make it here case-insensitive to be more user-friendly.
-        var pokemonName = name.ToLowerInvariant();
-        var relativeUri = $"pokemon/{pokemonName}";
-
-        PokemonDto pokemon;
-        try
-        {
-            pokemon = await pokeapiClient.FetchAsync<PokemonDto>(relativeUri, cacheId: $"{pokemonName}.pokemon");
-        }
-        catch (HttpRequestException exception)
-        {
-            if (exception.StatusCode == HttpStatusCode.NotFound)
-            {
-                throw new PokemonNotFoundException(name);
-            }
-            throw;
-        }
+        var pokemon = await pokemonByNameQueryHandler.HandleAsync(new PokemonByNameQuery(name));
 
         // Details about the Pokemon species is located in a dedicated endpoint.
         var speciesName = pokemon.Species.Name;
-        relativeUri = $"pokemon-species/{speciesName}";
+        var relativeUri = $"pokemon-species/{speciesName}";
         var pokemonSpecies = await pokeapiClient.FetchAsync<PokemonSpeciesDto>(relativeUri, cacheId: $"{speciesName}.species");
 
         // Pokemon flavor text comes in different languages and depends on the version of the game.
