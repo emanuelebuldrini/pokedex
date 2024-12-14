@@ -5,7 +5,7 @@ using UrlCombineLib;
 
 namespace Pokedex.Infrastructure.ApiClients;
 
-public abstract class ApiClient : IDisposable
+public abstract class ApiClient
 {
     private readonly HttpClient _httpClient;
     private readonly IStreamCachingService? _cachingService;
@@ -65,9 +65,4 @@ public abstract class ApiClient : IDisposable
     }
 
     private bool IsCacheEnabled() => _cachingService != null && _cacheDuration != null;
-
-    public void Dispose()
-    {
-        _httpClient?.Dispose();
-    }
 }

@@ -1,6 +1,5 @@
 ﻿
 using JewelArchitecture.Core.Application.QueryHandlers;
-using Pokedex.Application.Abstractions;
 using Pokedex.Application.Pokemon.Dto;
 using Pokedex.Application.Pokemon.Queries;
 using Pokedex.Application.Shared;
@@ -8,18 +7,16 @@ using PokeDex.Domain.Pokemon;
 
 namespace Pokedex.Application.Pokemon.ApplicationServices;
 
-public class PokemonService(IPokeapiClient pokeapiClient,
-    IQueryHandler<PokemonByNameQuery,PokemonDto> pokemonByNameQueryHandler)
-    : IDisposable
+public class PokemonService(IQueryHandler<PokemonByNameQuery,PokemonDto> pokemonByNameQueryHandler,
+     IQueryHandler<PokemonSpeciesByNameQuery, PokemonSpeciesDto> pokemonSpeciesByNameQueryHandler)   
 {
     public async Task<PokemonAggregate> GetAsync(string name)
     {
+        // Get the Pokemon first
         var pokemon = await pokemonByNameQueryHandler.HandleAsync(new PokemonByNameQuery(name));
-
-        // Details about the Pokemon species is located in a dedicated endpoint.
-        var speciesName = pokemon.Species.Name;
-        var relativeUri = $"pokemon-species/{speciesName}";
-        var pokemonSpecies = await pokeapiClient.FetchAsync<PokemonSpeciesDto>(relativeUri, cacheId: $"{speciesName}.species");
+        // Then retrieve the Pokemon species details
+        var speciesQuery = new PokemonSpeciesByNameQuery(pokemon.Species.Name);
+        var pokemonSpecies = await pokemonSpeciesByNameQueryHandler.HandleAsync(speciesQuery);
 
         // Pokemon flavor text comes in different languages and depends on the version of the game.
         var flavorText = pokemonSpecies.FlavorTextEntries
@@ -38,10 +35,5 @@ public class PokemonService(IPokeapiClient pokeapiClient,
             Habitat = pokemonSpecies.Habitat.Name,
             IsLegendary = pokemonSpecies.IsLegendary
         };
-    }
-
-    public void Dispose()
-    {
-        pokeapiClient.Dispose();
-    }
+    } 
 }

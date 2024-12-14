@@ -3,7 +3,7 @@ using Pokedex.Domain.Shared;
 
 namespace Pokedex.Application.Shared.FunTranslations;
 
-public class FunTranslationService(IFuntranslationsClient funTranslationsClient) : IDisposable
+public class FunTranslationService(IFuntranslationsClient funTranslationsClient)
 {
     // Use JSON format to get responses from Funtranslations: API default is XML.
     private readonly string _apiResponseFormat = "json";
@@ -16,10 +16,5 @@ public class FunTranslationService(IFuntranslationsClient funTranslationsClient)
         var response = await funTranslationsClient.FetchAsync<FunTranslationsResponse>(relativeUri, cacheId);
 
         return response.Contents.Translated;
-    }
-
-    public void Dispose()
-    {
-        funTranslationsClient.Dispose();
-    }
+    }  
 }
