@@ -1,4 +1,5 @@
 ﻿
+using JewelArchitecture.Core.Application.QueryHandlers;
 using JewelArchitecture.Core.Application.UseCases;
 using Microsoft.Extensions.Logging;
 using Pokedex.Application.Pokemon.ApplicationServices;
@@ -8,19 +9,21 @@ using PokeDex.Domain.Pokemon;
 
 namespace Pokedex.Application.Pokemon.UseCases
 {
-    public class PokemonTranslatedCase(PokemonService pokemonService, FunTranslationService funTranslationService,
+    public class PokemonTranslatedCase(PokemonService pokemonService,
+        IQueryHandler<FunTranslationQueryByText, string> funTranslationQueryByTextHandler,
         ILogger<PokemonTranslatedCase> logger)
         : IUseCase<PokemonTranslatedInput, PokemonAggregate>
     {
         public async Task<PokemonAggregate> HandleAsync(PokemonTranslatedInput input)
         {
             var pokemon = await pokemonService.GetAsync(input.PokemonName);
-
             var translationType = pokemon.RequiresTranslation();
             try
             {
-                var translation = await funTranslationService.TranslateAsync(pokemon.Description,
-                    translationType, cacheId: $"{pokemon.Name}.description");
+                // Cache translation by Pokemon.
+                var cacheKey = $"{pokemon.Name}.description";
+                var query = new FunTranslationQueryByText(pokemon.Description, translationType, cacheKey);
+                var translation = await funTranslationQueryByTextHandler.HandleAsync(query);
 
                 // Yoda translation response needs sanitization because has double spaces after comma.
                 // Furthermore, if there is a full stop between two sentences it has no space after.

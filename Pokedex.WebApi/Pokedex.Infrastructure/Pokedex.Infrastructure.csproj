@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Pokedex.Application\Pokedex.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resilience\" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace Pokedex.Application.Shared.FunTranslations;
+﻿namespace Pokedex.Application.Shared.FunTranslations.Dto;
 
 public class ContentDto
 {

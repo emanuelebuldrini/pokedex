@@ -16,7 +16,6 @@ public static class IServiceCollectionExtension
         // They should be transient services to avoid trapping HttpClient's lifetime.
         serviceCollection.AddTransient<PokemonService>();
         serviceCollection.AddTransient<PokemonTranslatedCase>();
-        serviceCollection.AddTransient<FunTranslationService>();
 
         serviceCollection.AddTransient<IPokeapiClient, PokeapiClient>();
         serviceCollection.AddTransient<IFuntranslationsClient, FuntranslationsClient>();
