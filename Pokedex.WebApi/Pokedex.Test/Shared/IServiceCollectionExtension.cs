@@ -8,11 +8,9 @@ using Pokedex.Test.Shared.Fakes;
 
 namespace Pokedex.Test.Shared;
 
-public static class IServiceCollectionExtension
+internal static class IServiceCollectionExtension
 {
-
-
-    // Add external API client helpers
+    // Add external API client helpers for testing purposes.
 
     public static IServiceCollection AddNastyPokeapiClient(this IServiceCollection serviceCollection,
         IConfigurationSection pokeapiConfigSection)
@@ -30,7 +28,8 @@ public static class IServiceCollectionExtension
     public static IServiceCollection AddNastyFuntranslationsClient(this IServiceCollection serviceCollection,
        IConfigurationSection funTranslationsConfigSection)
     {
-        serviceCollection.AddTransient<IFuntranslationsClient, FuntranslationsClient>();
+        serviceCollection.AddTransient<FuntranslationsClient>();
+        serviceCollection.AddTransient<IFuntranslationsClient, NastyFuntranslationsClient>();
 
         serviceCollection.AddHttpClient<FuntranslationsClient>();
         serviceCollection.Configure<FuntranslationsApiOptions>(funTranslationsConfigSection)

@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Pokedex.Interface.Pokemon;
 using Pokedex.Interface.Shared;
-using Pokedex.Test.Shared.Factories;
 using System.Reflection;
 
 namespace JewelArchitecture.Examples.SmartCharging.WebApiTest.Shared.Factories;

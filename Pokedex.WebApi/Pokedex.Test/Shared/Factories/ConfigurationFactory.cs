@@ -2,7 +2,7 @@
 
 namespace Pokedex.Test.Shared.Factories;
 
-public class ConfigurationFactory
+internal class ConfigurationFactory
 {
     public static IConfigurationRoot GetExternalApiConfig()
     {

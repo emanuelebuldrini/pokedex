@@ -1,20 +1,20 @@
 ﻿using Pokedex.Application.Abstractions;
-using Pokedex.Infrastructure.ApiClients.Pokeapi;
+using Pokedex.Infrastructure.ApiClients.FunTranslations;
 
 namespace Pokedex.Test.Shared.Fakes;
 
-internal sealed class NastyPokeapiClient(PokeapiClient client) : IPokeapiClient
+internal sealed class NastyFuntranslationsClient(FuntranslationsClient client) : IFuntranslationsClient
 {
     int retryCount;
 
     public async Task<TDeserialize> FetchAsync<TDeserialize>(string relativeUri, string? cacheKey)
         where TDeserialize : class
     {
-        while (retryCount < 3)
+        while (retryCount < 2)
         {
-            // It should try at least 3 times.
+            // It should try at least 2 times.
             retryCount++;
-            throw new HttpRequestException("Sorry, unable to reach the Pokeapi.");
+            throw new HttpRequestException("Sorry, unable to reach the Funtranslations API.");
         }
 
         retryCount = 0;
