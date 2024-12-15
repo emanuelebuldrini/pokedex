@@ -1,5 +1,7 @@
-﻿using System.Text.Json;
+﻿using System.Net;
+using System.Text.Json;
 using Microsoft.Extensions.Options;
+using Pokedex.Infrastructure.ApiClients.Exceptions;
 using Pokedex.Infrastructure.Caching;
 using UrlCombineLib;
 
@@ -40,6 +42,11 @@ public abstract class ApiClient
         }
 
         using var response = await _httpClient.GetAsync(relativeUri);
+        
+        if (ShouldRetryRequest(response))
+        {
+            throw new HttpRetryableException(response.StatusCode);
+        }
 
         response.EnsureSuccessStatusCode();
 
@@ -57,6 +64,12 @@ public abstract class ApiClient
         memoryResponseStream.Position = 0;
         return await DeserializeResponse<TDeserialize>(memoryResponseStream);
     }
+
+    private static bool ShouldRetryRequest(HttpResponseMessage response)=>
+        response.StatusCode != HttpStatusCode.TooManyRequests // Exclude 429
+                    // Should retry on 408 or 500                   
+                    && (response.StatusCode == HttpStatusCode.RequestTimeout ||
+                                       response.StatusCode == HttpStatusCode.InternalServerError);    
 
     private async Task<TDeserialize> DeserializeResponse<TDeserialize>(Stream stream) where TDeserialize : class
     {

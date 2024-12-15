@@ -1,5 +1,7 @@
 ﻿using Pokedex.Application.Abstractions;
+using Pokedex.Infrastructure.ApiClients.Exceptions;
 using Pokedex.Infrastructure.ApiClients.FunTranslations;
+using System.Net;
 
 namespace Pokedex.Test.Shared.Fakes;
 
@@ -14,7 +16,7 @@ internal sealed class NastyFuntranslationsClient(FuntranslationsClient client) :
         {
             // It should try at least 2 times.
             retryCount++;
-            throw new HttpRequestException("Sorry, unable to reach the Funtranslations API.");
+            throw new HttpRetryableException(HttpStatusCode.RequestTimeout);
         }
 
         retryCount = 0;
