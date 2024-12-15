@@ -7,7 +7,7 @@ public static class ApiResponseHelper
 {
     public static ActionResult InternalServerError(PokemonDataFetchException exception)
     {
-        var suggestions = "Ensure the server is connected to the network, and try again later.";
+        var suggestions = "Please ensure the server is connected to the network, and try again later.";
 
         return new ObjectResult(new { message = $"{exception.Message} {suggestions}" })
         {
