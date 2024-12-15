@@ -22,6 +22,9 @@ public class Utils
         var sanitizedSpaces = Regex.Replace(translation, @"\s{2,}", " ");
 
         // Add a space after a full stop that separates two sentences.
-        return Regex.Replace(sanitizedSpaces, @"(?<=\w)\.(?=\w)", ". ");
+        var sanitizedFullStops= Regex.Replace(sanitizedSpaces, @"(?<=\w)\.(?=\w)", ". ");
+        
+        // Add a space after a comma that separates two sentences.
+        return Regex.Replace(sanitizedFullStops, @"(?<=\w)\,(?=\w)", ", ");
     }
 }
