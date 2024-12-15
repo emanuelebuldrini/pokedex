@@ -28,6 +28,7 @@ namespace Pokedex.Application.Pokemon.UseCases
                 // Yoda translation response needs sanitization because has double spaces after comma.
                 // Furthermore, if there is a full stop between two sentences it has no space after.
                 // And sometimes it has commas without a space after.
+                // And the first letter after comma is from time to time capitalized.
                 pokemon.Description = Utils.SanitizeTranslation(translation);
             }
             catch (Exception exception)
