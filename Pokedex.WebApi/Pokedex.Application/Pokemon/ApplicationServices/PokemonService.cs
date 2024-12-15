@@ -39,7 +39,7 @@ public class PokemonService(IQueryHandler<PokemonByNameQuery, PokemonDto> pokemo
             .FirstOrDefault(e => e.Language.Name == "en")?.FlavorText;
 
         // Flavor text is returned with common control characters like \n, \f.
-        // Therefore, clean up the string.
+        // And it seems that the word 'Pokémon' has a wrong casing: POKéMON.
         var sanitizedFlavorText = Utils.SanitizeFlavorText(flavorText);
 
         return new PokemonAggregate

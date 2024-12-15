@@ -13,7 +13,10 @@ public class Utils
         }
 
         // Replace line endings like \n, \f with a space.
-        return flavorText.ReplaceLineEndings(" ");
+        var sanitizedLineEndings = flavorText.ReplaceLineEndings(" ");
+
+        // Make sure that the case of Pokémon is correct.
+        return sanitizedLineEndings.Replace("POKéMON", "Pokémon");
     }
 
     public static string SanitizeTranslation(string translation)
