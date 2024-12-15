@@ -10,7 +10,7 @@ public class RetryPolicyOptions
 
     [Required]
     [Range(0, double.MaxValue)]
-    public double DelaySeconds { get; set; }
+    public double BaseDelaySeconds { get; set; }
 
     [Required]
     public BackoffStrategy BackoffStrategy { get; set; }

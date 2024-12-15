@@ -23,9 +23,9 @@ public class QueryHandlerResilienceDecorator<TQuery, TResult> : IQueryHandler<TQ
         // Define the retry policy according to the app settings.        
         var strategy = retryStrategyOptions.Value.BackoffStrategy;
         var retryCount = retryStrategyOptions.Value.RetryCount;
-        var delaySeconds = retryStrategyOptions.Value.DelaySeconds;
+        var baseDelaySeconds = retryStrategyOptions.Value.BaseDelaySeconds;
 
-        _retryPolicy = PollyHttpRequestHelper.CreatePolicy(strategy, retryCount, delaySeconds,
+        _retryPolicy = PollyHttpRequestHelper.CreatePolicy(strategy, retryCount, baseDelaySeconds,
                 onRetryAction: (exception, timeSpan, retryCount, context) =>
                 {
                     _logger.LogWarning(exception, $"Retry {retryCount} after {timeSpan} due to '{exception.Message}'");

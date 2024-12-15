@@ -16,7 +16,7 @@ internal class ConfigurationFactory
             // Use a simple retry policy for testing purposes: short delay.
             { "RetryPolicy:BackoffStrategy", "Constant" },
             { "RetryPolicy:RetryCount", "3" },
-            { "RetryPolicy:DelaySeconds", "0.1" }
+            { "RetryPolicy:BaseDelaySeconds", "0.1" }
         };
 
         return new ConfigurationBuilder()
