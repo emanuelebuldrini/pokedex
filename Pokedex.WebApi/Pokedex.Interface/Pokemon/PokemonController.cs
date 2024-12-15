@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Pokedex.Application.Pokemon.ApplicationServices;
+using Pokedex.Application.Pokemon.Exceptions;
 using Pokedex.Application.Pokemon.UseCases;
 using Pokedex.Domain.Pokemon.Exceptions;
+using Pokedex.Interface.Shared;
 using PokeDex.Domain.Pokemon;
 
 namespace Pokedex.Interface.Pokemon;
@@ -14,6 +16,7 @@ public class PokemonController(PokemonService pokemonService,
     [HttpGet("{name}")]
     [ProducesResponseType<PokemonAggregate>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> GetPokemonAsync(string name)
     {
         try
@@ -26,11 +29,16 @@ public class PokemonController(PokemonService pokemonService,
         {
             return NotFound();
         }
-    }
+        catch (PokemonDataFetchException exception)
+        {
+            return ApiResponseHelper.InternalServerError(exception);
+        }
+    }   
 
     [HttpGet("Translated/{name}")]
     [ProducesResponseType<PokemonAggregate>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> GetPokemonTranslatedAsync(string name)
     {
         try
@@ -44,6 +52,10 @@ public class PokemonController(PokemonService pokemonService,
         catch (PokemonNotFoundException)
         {
             return NotFound();
-        }        
+        }
+        catch (PokemonDataFetchException exception)
+        {
+            return ApiResponseHelper.InternalServerError(exception);
+        }
     }
 }

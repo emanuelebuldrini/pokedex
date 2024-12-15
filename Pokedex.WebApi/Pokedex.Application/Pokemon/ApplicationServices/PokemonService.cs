@@ -1,22 +1,37 @@
 ﻿
 using JewelArchitecture.Core.Application.QueryHandlers;
+using Microsoft.Extensions.Logging;
 using Pokedex.Application.Pokemon.Dto;
+using Pokedex.Application.Pokemon.Exceptions;
 using Pokedex.Application.Pokemon.Queries;
 using Pokedex.Application.Shared;
 using PokeDex.Domain.Pokemon;
 
 namespace Pokedex.Application.Pokemon.ApplicationServices;
 
-public class PokemonService(IQueryHandler<PokemonByNameQuery,PokemonDto> pokemonByNameQueryHandler,
-     IQueryHandler<PokemonSpeciesByNameQuery, PokemonSpeciesDto> pokemonSpeciesByNameQueryHandler)   
+public class PokemonService(IQueryHandler<PokemonByNameQuery, PokemonDto> pokemonByNameQueryHandler,
+     IQueryHandler<PokemonSpeciesByNameQuery, PokemonSpeciesDto> pokemonSpeciesByNameQueryHandler,
+     ILogger<PokemonService> logger)
 {
     public async Task<PokemonAggregate> GetAsync(string name)
     {
-        // Get the Pokemon first
-        var pokemon = await pokemonByNameQueryHandler.HandleAsync(new PokemonByNameQuery(name));
-        // Then retrieve the Pokemon species details
-        var speciesQuery = new PokemonSpeciesByNameQuery(pokemon.Species.Name);
-        var pokemonSpecies = await pokemonSpeciesByNameQueryHandler.HandleAsync(speciesQuery);
+        PokemonDto pokemon;
+        PokemonSpeciesDto pokemonSpecies;
+        try
+        {
+            // Get the Pokemon first
+            pokemon = await pokemonByNameQueryHandler.HandleAsync(new PokemonByNameQuery(name));
+            // Then retrieve the Pokemon species details
+            var speciesQuery = new PokemonSpeciesByNameQuery(pokemon.Species.Name);
+            pokemonSpecies = await pokemonSpeciesByNameQueryHandler.HandleAsync(speciesQuery);
+        }
+        catch (HttpRequestException exception)
+        {
+            var appException = new PokemonDataFetchException(name);
+            logger.LogError(exception, appException.Message);
+
+            throw appException;
+        }
 
         // Pokemon flavor text comes in different languages and depends on the version of the game.
         var flavorText = pokemonSpecies.FlavorTextEntries
@@ -35,5 +50,5 @@ public class PokemonService(IQueryHandler<PokemonByNameQuery,PokemonDto> pokemon
             Habitat = pokemonSpecies.Habitat.Name,
             IsLegendary = pokemonSpecies.IsLegendary
         };
-    } 
+    }
 }
