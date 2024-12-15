@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Pokedex.Application\Pokedex.Application.csproj" />
+    <PackageReference Include="Polly" Version="8.5.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resilience\" />
+    <ProjectReference Include="..\Pokedex.Application\Pokedex.Application.csproj" />
   </ItemGroup>
 
 </Project>

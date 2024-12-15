@@ -2,6 +2,6 @@
 
 public interface IApiClient
 {
-    Task<TDeserialize> FetchAsync<TDeserialize>(string relativeUri, string? cacheId)
+    Task<TDeserialize> FetchAsync<TDeserialize>(string relativeUri, string? cacheKey)
         where TDeserialize : class;
 }

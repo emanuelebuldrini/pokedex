@@ -15,17 +15,11 @@ internal class ServiceCollectionFactory
 
         serviceCollection.AddControllers()
             .AddApplicationPart(Assembly.GetAssembly(typeof(PokemonController))!)
-            .AddControllersAsServices();
-
-        var config = ConfigurationFactory.GetExternalApiConfig();
-        var pokemonApiConfig = config.GetSection("Pokeapi");
-        var funTranslationsApiConfig = config.GetSection("FuntranslationsApi");
+            .AddControllersAsServices();       
 
         serviceCollection
             .AddJewelArchitecture()
-            .AddPokedex()
-            .AddPokeapiClient(pokemonApiConfig)
-            .AddFuntranslationsClient(funTranslationsApiConfig);
+            .AddPokedex();       
 
         return serviceCollection;
     }

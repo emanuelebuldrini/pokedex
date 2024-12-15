@@ -12,7 +12,11 @@ public class ConfigurationFactory
             { "Pokeapi:CacheDuration", "10675199.02:48:05" },
             { "FuntranslationsApi:BaseUrl", "https://api.funtranslations.com/translate" },
             // Set essentially no cache expiration for testing purposes: duration of TimeSpan.MaxValue.
-            { "FuntranslationsApi:CacheDuration", "10675199.02:48:05" }
+            { "FuntranslationsApi:CacheDuration", "10675199.02:48:05" },
+            // Use a simple retry policy for testing purposes: short delay.
+            { "RetryPolicy:BackoffStrategy", "Constant" },
+            { "RetryPolicy:RetryCount", "3" },
+            { "RetryPolicy:DelaySeconds", "0.1" }
         };
 
         return new ConfigurationBuilder()

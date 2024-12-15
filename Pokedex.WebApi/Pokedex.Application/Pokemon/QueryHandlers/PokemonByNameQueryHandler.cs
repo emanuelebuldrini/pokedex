@@ -19,7 +19,7 @@ public class PokemonByNameQueryHandler(IPokeapiClient pokeapiClient)
 
         try
         {
-            return await pokeapiClient.FetchAsync<PokemonDto>(relativeUri, cacheId: $"{pokemonName}.pokemon");
+            return await pokeapiClient.FetchAsync<PokemonDto>(relativeUri, cacheKey: $"{pokemonName}.pokemon");
         }
         catch (HttpRequestException exception)
         {

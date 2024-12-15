@@ -13,6 +13,6 @@ public class PokemonSpeciesByNameQueryHandler(IPokeapiClient pokeapiClient)
         // Details about the Pokemon species is located in a dedicated endpoint.
         var speciesName = query.Name;
         var relativeUri = $"pokemon-species/{speciesName}";
-        return await pokeapiClient.FetchAsync<PokemonSpeciesDto>(relativeUri, cacheId: $"{speciesName}.species");
+        return await pokeapiClient.FetchAsync<PokemonSpeciesDto>(relativeUri, cacheKey: $"{speciesName}.species");
     }
 }

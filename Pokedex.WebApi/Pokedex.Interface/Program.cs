@@ -18,6 +18,9 @@ builder.Services.AddPokeapiClient(pokedexApiConfig);
 var funTranslationsApiConfig = builder.Configuration.GetSection("FuntranslationsApi");
 builder.Services.AddFuntranslationsClient(funTranslationsApiConfig);
 
+var retryPolicyConfig = builder.Configuration.GetSection("RetryPolicy");
+builder.Services.AddRetryPolicyOptions(retryPolicyConfig);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
