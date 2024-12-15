@@ -41,14 +41,27 @@ public abstract class ApiClient
             return deserializedResponse;
         }
 
-        using var response = await _httpClient.GetAsync(relativeUri);
-        
-        if (ShouldRetryRequest(response))
+        HttpResponseMessage responseMessage;
+        try
         {
-            throw new HttpRetryableException(response.StatusCode);
+            responseMessage = await _httpClient.GetAsync(relativeUri);
+        }
+        catch (HttpRequestException exception)
+        {
+            // A failure at this point is probably due to a network issue or the external API is down.
+            throw new HttpRetryableException(exception);
         }
 
-        response.EnsureSuccessStatusCode();
+        using var response = responseMessage;
+        try
+        {
+            response.EnsureSuccessStatusCode();
+        }
+        catch (HttpRequestException exception)
+        {
+            // A failure at this point can be a temporary error of the external API.
+            HandleNotSuccessfulStatusCode(response, exception);
+        }
 
         using var responseStream = await response.Content.ReadAsStreamAsync();
 
@@ -65,11 +78,21 @@ public abstract class ApiClient
         return await DeserializeResponse<TDeserialize>(memoryResponseStream);
     }
 
-    private static bool ShouldRetryRequest(HttpResponseMessage response)=>
-        response.StatusCode != HttpStatusCode.TooManyRequests // Exclude 429
-                    // Should retry on 408 or 500                   
-                    && (response.StatusCode == HttpStatusCode.RequestTimeout ||
-                                       response.StatusCode == HttpStatusCode.InternalServerError);    
+    private static void HandleNotSuccessfulStatusCode(HttpResponseMessage response, HttpRequestException exception)
+    {
+        if (ShouldRetryRequest(response))
+        {
+            throw new HttpRetryableException(exception);
+        }
+        else
+        {
+            throw new HttpNonRetryableException(exception);
+        }
+    }
+
+    private static bool ShouldRetryRequest(HttpResponseMessage response) =>
+        response.StatusCode == HttpStatusCode.RequestTimeout ||
+                                       response.StatusCode == HttpStatusCode.InternalServerError;
 
     private async Task<TDeserialize> DeserializeResponse<TDeserialize>(Stream stream) where TDeserialize : class
     {

@@ -1,4 +1,5 @@
 ﻿using Pokedex.Application.Abstractions;
+using Pokedex.Infrastructure.ApiClients.Exceptions;
 using Pokedex.Infrastructure.ApiClients.Pokeapi;
 
 namespace Pokedex.Test.Shared.Fakes;
@@ -14,7 +15,8 @@ internal sealed class NastyPokeapiClient(PokeapiClient client) : IPokeapiClient
         {
             // It should try at least 3 times.
             retryCount++;
-            throw new HttpRequestException("Sorry, unable to reach the Pokeapi.");
+            throw new HttpRetryableException(new HttpRequestException(HttpRequestError.Unknown,
+                "Sorry, unable to reach the Pokeapi.", null, System.Net.HttpStatusCode.Ambiguous));
         }
 
         retryCount = 0;

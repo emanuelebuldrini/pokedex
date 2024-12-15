@@ -8,8 +8,7 @@ namespace Pokedex.Infrastructure.Resilience
     {
         public static AsyncRetryPolicy CreatePolicy(BackoffStrategy strategy, int retryCount,
             double baseDelaySeconds, Action<Exception, TimeSpan, int, Context> onRetryAction) =>
-            Policy.Handle<HttpRequestException>() // e.g., the external API is down or there is a network issue.
-                .Or<HttpRetryableException>() // e.g. Internal server error or timeout.
+            Policy.Handle<HttpRetryableException>() // e.g., the external API is down or there is a network issue.                
                 .WaitAndRetryAsync(
                     retryCount,
                     attempt => CalculateDelay(strategy, baseDelaySeconds, attempt),
