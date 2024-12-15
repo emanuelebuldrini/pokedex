@@ -1,4 +1,5 @@
 using JewelArchitecture.Core.Interface.Extensions;
+using Microsoft.OpenApi.Models;
 using Pokedex.Interface.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,7 +7,19 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1",
+        new OpenApiInfo
+        {
+            Title = "Fun Pokédex",
+            Version = "v1"
+        }
+     );
+
+    var filePath = Path.Combine(AppContext.BaseDirectory, "Pokedex.Interface.xml");
+    c.IncludeXmlComments(filePath);
+});
 
 builder.Services.AddJewelArchitecture();
 builder.Services.AddPokedex();
