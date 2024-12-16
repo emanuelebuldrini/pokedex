@@ -3,8 +3,10 @@ using Pokedex.Application.Pokemon.ApplicationServices;
 using Pokedex.Application.Pokemon.Exceptions;
 using Pokedex.Application.Pokemon.UseCases;
 using Pokedex.Domain.Pokemon.Exceptions;
+using Pokedex.Interface.Pokemon.Examples;
 using Pokedex.Interface.Shared;
 using PokeDex.Domain.Pokemon;
+using Swashbuckle.AspNetCore.Filters;
 using System.ComponentModel.DataAnnotations;
 
 namespace Pokedex.Interface.Pokemon;
@@ -25,6 +27,7 @@ public class PokemonController(PokemonService pokemonService,
     [ProducesResponseType<PokemonAggregate>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [SwaggerResponseExample(StatusCodes.Status200OK,typeof(PokemonExample))]
     public async Task<ActionResult> GetPokemonAsync([MaxLength(32)][Required] string name)
     {
         try
@@ -60,6 +63,7 @@ public class PokemonController(PokemonService pokemonService,
     [ProducesResponseType<PokemonAggregate>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(TranslatedPokemonExample))]
     public async Task<ActionResult> GetPokemonTranslatedAsync([MaxLength(32)][Required] string name)
     {
         try

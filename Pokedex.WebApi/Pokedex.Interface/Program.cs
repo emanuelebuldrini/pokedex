@@ -1,6 +1,8 @@
 using JewelArchitecture.Core.Interface.Extensions;
 using Microsoft.OpenApi.Models;
+using Pokedex.Interface.Pokemon.Examples;
 using Pokedex.Interface.Shared;
+using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +21,9 @@ builder.Services.AddSwaggerGen(c =>
 
     var filePath = Path.Combine(AppContext.BaseDirectory, "Pokedex.Interface.xml");
     c.IncludeXmlComments(filePath);
+    c.ExampleFilters();
 });
+builder.Services.AddSwaggerExamplesFromAssemblyOf<PokemonExample>();
 
 builder.Services.AddJewelArchitecture();
 builder.Services.AddPokedex();
